@@ -1,48 +1,59 @@
 //import THREE lib
 import * as THREE from 'three';
 
-function main() {
-    const canvas = document.getElementById('canvas');
+const canvas = document.getElementById('canvas');
 
-    // 3 essential objects: renderer, scene and camera
-    const renderer = new THREE.WebGLRenderer({canvas});
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 5);
-    camera.position.z = 5;
+// the 3 main objects: renderer, scene and camera
+const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha: true, // transparent bg
+});
 
-    // mesh construction
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshPhongMaterial({color: 0x44aa88}); // this material is affected by lights!
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+renderer.setSize( window.innerWidth, window.innerHeight );
+
+const cubes = [
+    makeCube(0xd16f06, -2),
+    makeCube(0x0080ff),
+    makeCube(0x5c2275, 2)
+];
+
+cubes.map(mesh => scene.add(mesh));
+
+camera.position.z = 5;
+
+function makeCube(color, x=0) {
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial( { color: color } );
     const cube = new THREE.Mesh( geometry, material );
-    
-    // creating a light
-    const color = 0xFFFFFF;
-    const intensity = 1;
-    const light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(-1, 2, 4);
-    
-    // add everything to the scene
-    scene.add( camera );
-    scene.add( cube );
-    scene.add(light);
-    
-    // render in full native resolution
-    renderer.setPixelRatio(window.devicePixelRatio);
 
-    function render(time) {
-        time *= 0.001; // convert time to seconds
-    
-        cube.rotation.x = time;
-        cube.rotation.y = time;
-    
-        renderer.render(scene, camera);
-    
-        // Request to the browser that you want to animate something
-        requestAnimationFrame(render);
-    }
-    
-    requestAnimationFrame(render);
-    
+    cube.position.x = x;
+
+    return cube;
 }
 
-main();
+const animate = function () {
+    requestAnimationFrame( animate );
+
+    cubes.forEach((mesh, idx) => {
+
+        if (idx === 0) {
+            mesh.rotation.x += 0.01;
+            mesh.rotation.y += 0.01;    
+        } 
+
+        mesh.rotation.x += 0.01 * idx;
+        mesh.rotation.y += 0.01 * idx;    
+    });
+
+    // avoid objects distortion/blurriness on windows resize event
+    const renderedCanvas = renderer.domElement;
+    camera.aspect = renderedCanvas.clientWidth / renderedCanvas.clientHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.render( scene, camera );
+};
+
+animate();
