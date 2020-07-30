@@ -61,5 +61,4 @@ typings/
 .next
 
 # Dist
-dist/build.js
-dist/bundle.js
+dist/
