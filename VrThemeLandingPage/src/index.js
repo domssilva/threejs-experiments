@@ -17,7 +17,7 @@ function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
     
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.shadowMap.enabled = true;
@@ -30,6 +30,7 @@ function init() {
     controls.enableDamping = true;
     controls.campingFactor = 0.25;
     controls.autoRotate = true;
+    controls.autoRotateSpeed = 1;
 
     // positioning
     controls.target.set(0, 0, 0);
@@ -52,7 +53,7 @@ function init() {
     });
 
     // plane
-    const geometry = new THREE.PlaneGeometry( 50, 50, 10, 5 );
+    const geometry = new THREE.PlaneGeometry( 80, 80, 10, 20 );
     const material = new THREE.MeshPhongMaterial( {color: 0xFFFFFF, wireframe: true, wireframeLinecap: 'butt', shininess: 3, side: THREE.DoubleSide} );
     plane = new THREE.Mesh( geometry, material );
     
@@ -68,7 +69,7 @@ function init() {
 function renderLoop(time) {
     requestAnimationFrame( renderLoop );
 
-    waves( plane, .4, 2);
+    waves( plane, .6, 2);
     controls.update();
 
     renderer.render( scene, camera );

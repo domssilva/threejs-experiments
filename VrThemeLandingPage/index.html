@@ -3,15 +3,83 @@
   <head>
     <title>VrThemeLandingPage</title>
     <script src="https://unpkg.com/lodash@4.16.6"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-			body { margin: 0; }
-			canvas { display: block; }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        font-size: 61.5%;
+      }
+
+			body {
+        margin: 0; 
+        font-size: 2rem;
+        overflow: hidden;
+        font-family: 'Orbitron', sans-serif;
+      }
+
+			canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: url('https://images.unsplash.com/photo-1499428665502-503f6c608263?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80');
+        background-size: cover;
+      }
+
+      nav {
+        position: absolute;
+        width: 100%;
+        color: white;
+        background: transparent;
+        padding-top: 2rem;
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      button {
+        outline: none;
+        border: none;
+        background: none;
+        cursor: pointer;
+        text-transform: uppercase;
+        font-family: 'Orbitron', sans-serif;
+        letter-spacing: .2rem;
+        color: white;
+        font-size: 3rem;
+
+        text-shadow: 0 .4rem 0.2rem rgba(0, 0, 0, .3);
+
+        transition: all .3s ease-in-out;
+      }
+
+      button:hover {
+        color: rgb(128, 47, 233);
+        text-shadow: 0.1rem .4rem 0.4rem rgba(75, 17, 151, 0.5);
+        transform: scale(1.1, 1.1);
+      }
+
+      button:not(:last-of-type) {
+        margin-right: 5rem;
+      }
+
 		</style>
   </head>
   <body>
-    <script src='https://jeromeetienne.github.io/threex.terrain/examples/vendor/three.js/build/three-min.js'></script>
-    <script src='https://jeromeetienne.github.io/threex.terrain/examples/vendor/three.js/examples/js/SimplexNoise.js'></script>
-    <script src='https://jeromeetienne.github.io/threex.terrain/threex.terrain.js'></script>
+    
+    <nav role="navigation" tabindex="0">
+      <button>videos</button>
+      <button>resources</button>
+    </nav>
+
     <script src="dist/bundle.js"></script>
   </body>
 </html>
